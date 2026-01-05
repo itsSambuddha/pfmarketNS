@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
 import { ServiceProjector } from "@/components/service-projector"
+import { FAQSection } from "@/components/faq-section"
 
 export default function Home() {
   return (
@@ -8,9 +9,12 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <ServiceProjector />
+      <FAQSection />
       
-      {/* Spacer for Future Sections */}
-      <div className="h-40 w-full" />
+      {/* Footer Placeholder */}
+      <div className="h-20 w-full bg-background border-t border-border flex items-center justify-center text-muted-foreground text-sm">
+        © 2026 pfmarket / N Sam's N
+      </div>
     </main>
   )
 }
