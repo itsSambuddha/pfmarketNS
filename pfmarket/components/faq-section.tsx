@@ -1,98 +1,168 @@
 "use client"
 
+import * as React from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { motion } from "framer-motion"
-import { ShieldCheck, Zap, BrainCircuit, Wallet } from "lucide-react"
+  ShieldCheck,
+  Zap,
+  BrainCircuit,
+  Wallet,
+  FileText,
+  MessageCircle,
+} from "lucide-react"
 
-const FAQ_ITEMS = [
+type FaqItem = {
+  id: string
+  question: string
+  answer: string
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+}
+
+const FAQ_ITEMS: FaqItem[] = [
   {
-    id: "item-1",
+    id: "ai",
     question: "Do you use AI to generate the work?",
-    answer: "We utilize AI as a structural architect, not a writer. While we use advanced LLMs for outlining and data synthesis, 100% of the narrative flow, critical analysis, and final polish is human-crafted to ensure it passes all detector thresholds and retains a unique voice.",
-    icon: BrainCircuit
+    answer:
+      "AI is used as a structural helper for outlines and research, not as a ghostwriter. The narrative flow, argumentation, and final wording are written manually so the work feels original and comfortably clears AI-detector checks.",
+    icon: BrainCircuit,
   },
   {
-    id: "item-2",
-    question: "How does the '100% Refund Shield' work?",
-    answer: "Safety is paramount. If the delivered asset materially deviates from the agreed-upon brief—and we cannot fix it within 24 hours—you receive a full refund instantly via UPI. No questions asked.",
-    icon: ShieldCheck
+    id: "refund",
+    question: "How does the 100% refund shield work?",
+    answer:
+      "If the delivered deck or report clearly misses the agreed brief and cannot be fixed within 24 hours of your revision request, you receive a full refund over UPI. This covers material issues in structure, depth, or accuracy that affect your ability to actually use the asset.",
+    icon: ShieldCheck,
   },
   {
-    id: "item-3",
-    question: "Why is there no card payment option?",
-    answer: "We operate on a zero-friction model. UPI allows for instant verification and zero platform fees, which means we don't have to pass those costs on to you. It keeps our pricing 5-10% lower than competitors.",
-    icon: Wallet
+    id: "upi",
+    question: "Why is there only UPI and no cards?",
+    answer:
+      "UPI is instant, low-friction, and nearly fee-less, so there is no need for extra gateways or FX markup. That lets pricing stay lean compared to card-based setups that add processing and platform fees on top.",
+    icon: Wallet,
   },
   {
-    id: "item-4",
-    question: "What is the typical turnaround time?",
-    answer: "For the 'Cinematic Deck', standard delivery is 48 hours. Priority slots (booked via WhatsApp) can accelerate this to 12-24 hours depending on current secretariat load.",
-    icon: Zap
-  }
+    id: "turnaround",
+    question: "What is the usual turnaround time?",
+    answer:
+      "For the Cinematic Deck, standard delivery is about 48 hours once the brief is locked. Priority slots, confirmed over WhatsApp, can compress this to roughly 12–24 hours depending on complexity and the current queue.",
+    icon: Zap,
+  },
+  {
+    id: "brief",
+    question: "What do you need from me to get started?",
+    answer:
+      "A short brief with your topic, context, target audience, and any college or committee guidelines is enough to begin. If you have sample decks, grading rubrics, or past submissions, those can be attached as reference—not as templates to copy.",
+    icon: FileText,
+  },
+  {
+    id: "support",
+    question: "How do revisions and support work?",
+    answer:
+      "Minor clarifications and text tweaks are always included. If you need a heavier structural change after delivery, a quick WhatsApp message is usually enough to scope whether it fits into the original slot or needs a separate add-on.",
+    icon: MessageCircle,
+  },
 ]
 
 export function FAQSection() {
+  const [activeId, setActiveId] = React.useState<string | null>(null)
+
+  const toggleCard = (id: string) => {
+    setActiveId((current) => (current === id ? null : id))
+  }
+
   return (
-    <section id="faq" className="relative w-full py-24 overflow-hidden">
-      
-      {/* Background Tech Pattern */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+    <section id="faq" className="relative w-full overflow-hidden py-20 md:py-24">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0">
+  {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#020617,_#000_55%)] opacity-85" />       */}
+        {/* <div className="absolute inset-0 bg-[linear-gradient(to_right,#94a3b81a_1px,transparent_1px),linear-gradient(to_bottom,#94a3b81a_1px,transparent_1px)] bg-[size:24px_24px] opacity-40" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-35 mix-blend-soft-light" /> */}
+      </div>
 
-      <div className="container px-4 md:px-6 relative z-10">
-        
-        {/* Section Header */}
-        <div className="flex flex-col items-center mb-16 text-center">
-          <div className="inline-flex items-center justify-center p-2 mb-4 bg-blue-500/10 rounded-full">
-            <ShieldCheck className="w-5 h-5 text-blue-500" />
+      <div className="container relative z-10 px-4 md:px-6">
+        {/* Header */}
+        <motion.div
+          className="mx-auto mb-10 max-w-3xl text-center md:mb-12"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="mb-4 inline-flex items-center rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-blue-100 backdrop-blur">
+            <ShieldCheck className="mr-2 h-3.5 w-3.5" />
+            FAQ · Clarity & Safety
           </div>
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-foreground">
-            Operational <span className="text-gradient-main">Intelligence</span>
+          <h2 className="text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Everything answered,{" "}
+            <span className="text-gradient-main">before you book.</span>
           </h2>
-          <p className="mt-4 text-muted-foreground max-w-[600px] text-lg">
-            Common protocols regarding privacy, delivery, and financial security.
+          <p className="mt-3 text-sm text-muted-foreground sm:text-[15px]">
+            Tap any card to expand. Each question covers how work is produced,
+            how payments and refunds are handled, and what to expect on timelines
+            and support.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Accordion Grid */}
-        <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="flex flex-col gap-4">
-            {FAQ_ITEMS.map((item, i) => (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
+        {/* Expandable cards */}
+        <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-2">
+          {FAQ_ITEMS.map((item, index) => {
+            const Icon = item.icon
+            const isActive = activeId === item.id
+
+            return (
+              <motion.button
                 key={item.id}
+                type="button"
+                onClick={() => toggleCard(item.id)}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.35, delay: index * 0.05 }}
+                className="group relative flex flex-col rounded-2xl border border-white/10 bg-white/5 p-4 text-left outline-none backdrop-blur-xl transition-colors duration-200 hover:border-primary/40 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-primary/60 dark:border-white/10 dark:bg-slate-900/40"
               >
-                <AccordionItem 
-                  value={item.id} 
-                  className="group border-none rounded-xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-white/20 dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 data-[state=open]:bg-white/60 dark:data-[state=open]:bg-slate-900/60 data-[state=open]:ring-1 data-[state=open]:ring-blue-500/30"
-                >
-                  <AccordionTrigger className="px-6 py-5 hover:no-underline text-left">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 rounded-lg bg-blue-500/5 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500/10 transition-colors">
-                        <item.icon className="w-5 h-5" />
-                      </div>
-                      <span className="text-lg font-medium text-foreground/90 group-hover:text-primary transition-colors">
-                        {item.question}
-                      </span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-6 pt-0 text-muted-foreground leading-relaxed pl-[4.5rem]">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              </motion.div>
-            ))}
-          </Accordion>
-        </div>
+                {/* Top row: icon + question centered */}
+                <div className="flex items-center justify-center gap-3 pb-2">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/30 bg-white/10 text-primary shadow-sm backdrop-blur">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <span className="text-[13px] font-medium text-foreground sm:text-[14px]">
+                    {item.question}
+                  </span>
+                </div>
 
+                {/* Divider bar that reacts on open */}
+                <div
+                  className={`mx-auto mb-1 h-px w-[70%] transition-colors duration-200 ${
+                    isActive ? "bg-primary/60" : "bg-white/10"
+                  }`}
+                />
+
+                {/* Expandable content */}
+                <AnimatePresence initial={false}>
+                  {isActive && (
+                    <motion.div
+                      key="content"
+                      initial={{ opacity: 0, height: 0, y: -4 }}
+                      animate={{ opacity: 1, height: "auto", y: 0 }}
+                      exit={{ opacity: 0, height: 0, y: -4 }}
+                      transition={{ duration: 0.22, ease: "easeOut" }}
+                      className="pt-2"
+                    >
+                      <p className="text-[13px] leading-relaxed text-muted-foreground">
+                        {item.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* subtle indicator */}
+                <span className="pointer-events-none absolute right-4 top-4 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+                  {isActive ? "Close" : "Open"}
+                </span>
+              </motion.button>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

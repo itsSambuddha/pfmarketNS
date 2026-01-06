@@ -1,130 +1,142 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { motion, useScroll, AnimatePresence } from "framer-motion"
-import { Menu, Sparkles, Lock, ArrowRight, Download } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ModeToggle } from "@/components/mode-toggle"
-import { InstallPrompt } from "@/components/install-prompt"
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { motion, useScroll, AnimatePresence } from "framer-motion";
+import { Menu, Lock, ArrowRight, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
+import { InstallPrompt } from "@/components/install-prompt";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
+  SheetTrigger
+} from "@/components/ui/sheet";
 
 const navLinks = [
   { href: "#services", label: "Protocols" },
   { href: "#process", label: "Process" },
-  { href: "#faq", label: "Intelligence" },
-]
+  { href: "#faq", label: "Intelligence" }
+];
 
-export function Navbar() {
-  const { scrollY } = useScroll()
-  const [scrolled, setScrolled] = useState(false)
-  const [isMobileOpen, setIsMobileOpen] = useState(false)
-
-  useEffect(() => {
-    const unsub = scrollY.on("change", (y) => {
-      setScrolled(y > 50)
-    })
-    return () => unsub()
-  }, [scrollY])
-
-  // Common Logo Component
-  const BrandLogo = ({ condensed = false }: { condensed?: boolean }) => (
-    <Link href="/" className="flex items-center gap-2 group">
-      <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-sky-500 text-white shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all">
-        <Sparkles className="w-4 h-4 fill-white" />
+function BrandMark({ condensed = false }: { condensed?: boolean }) {
+  return (
+    <Link href="/" className="group flex items-center gap-3">
+      <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-transparent">
+        <Image
+          src="/assets/logo/ilnsm2418.png"
+          alt="Campus_SlateNS logo"
+          width={48}
+          height={48}
+          className="h-12 w-12 object-contain"
+          priority
+        />
       </div>
       {!condensed && (
-        <div className="flex flex-col leading-none">
-          <span className="text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
-            pfmarket
+        <div className="flex flex-col leading-tight">
+          <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            Campus_SlateNS
           </span>
-          <span className="text-[10px] font-medium text-muted-foreground tracking-widest uppercase">
-            Strategic Visuals
+          <span className="text-[10px] font-light tracking-tight text-foreground transition-colors group-hover:text-primary">
+            pfmarket
           </span>
         </div>
       )}
     </Link>
-  )
+  );
+}
+
+export function Navbar() {
+  const { scrollY } = useScroll();
+  const [scrolled, setScrolled] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const unsub = scrollY.on("change", (y) => setScrolled(y > 40));
+    return () => unsub();
+  }, [scrollY]);
 
   return (
     <>
-      {/* DESKTOP NAV (Animates between Full and Pill) */}
-      <div className="hidden md:block fixed top-0 left-0 right-0 z-50 pointer-events-none">
-        <AnimatePresence mode="wait">
-          
-          {/* STATE 1: Top of Page */}
+      {/* Desktop nav */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-40 hidden md:block">
+        <AnimatePresence mode="wait" initial={false}>
           {!scrolled && (
             <motion.header
-              key="full-bar"
-              initial={{ opacity: 0, y: -20 }}
+              key="nav-full"
+              initial={{ opacity: 0, y: -18 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="w-full h-20 flex items-center px-8 pointer-events-auto bg-transparent"
+              exit={{ opacity: 0, y: -18 }}
+              transition={{ duration: 0.18 }}
+              className="pointer-events-auto"
             >
-              <div className="w-full max-w-7xl mx-auto flex items-center justify-between">
-                <BrandLogo />
-                <nav className="flex items-center gap-8">
+              <div className="mx-auto flex h-20 w-full max-w-6xl items-center justify-between px-4">
+                <BrandMark />
+                <nav className="flex items-center gap-9">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors hover:underline underline-offset-4"
+                      className="text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {link.label}
                     </Link>
                   ))}
-                  <div className="h-4 w-px bg-border/50 mx-2" />
+                  <div className="mx-1 h-4 w-px bg-border/70" />
                   <div className="flex items-center gap-3">
-                    <InstallPrompt />
+                    {/* Desktop install button */}
+                    <InstallPrompt className="hidden md:flex" />
                     <ModeToggle />
-                    {/* <Button size="sm" className="rounded-full px-6 bg-primary/10 text-primary hover:bg-primary hover:text-white border border-primary/20 transition-all">
-                      Log In
-                    </Button> */}
+                    <Link href="#services">
+                      <Button
+                        size="sm"
+                        className="rounded-full border border-blue-500/30 bg-blue-600/10 px-5 text-xs font-semibold text-blue-600 hover:bg-blue-600 hover:text-white"
+                      >
+                        <Lock className="mr-2 h-3 w-3" />
+                        Book Slot
+                      </Button>
+                    </Link>
                   </div>
                 </nav>
               </div>
             </motion.header>
           )}
 
-          {/* STATE 2: Scrolled (Floating Pill) */}
           {scrolled && (
             <motion.header
-              key="pill-bar"
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 20, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="w-full flex justify-center pointer-events-auto"
+              key="nav-pill"
+              initial={{ opacity: 0, y: -26, scale: 0.96 }}
+              animate={{ opacity: 1, y: 16, scale: 1 }}
+              exit={{ opacity: 0, y: -26, scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 320, damping: 28 }}
+              className="pointer-events-auto flex justify-center"
             >
-              <div className="flex items-center justify-between px-2 py-2 pl-4 rounded-full border border-white/20 dark:border-white/10 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-blue-900/5 dark:shadow-black/50 min-w-[500px]">
-                <div className="flex items-center gap-6">
-                  <BrandLogo condensed />
-                  <nav className="flex items-center gap-1">
+              <div className="flex min-w-[520px] max-w-3xl items-center justify-between gap-4 rounded-full border border-white/20 bg-white/80 px-3 py-2 pl-4 text-xs shadow-[0_18px_60px_rgba(15,23,42,0.45)] backdrop-blur-2xl dark:border-white/12 dark:bg-slate-950/85">
+                <div className="flex items-center gap-5">
+                  <BrandMark condensed />
+                  <nav className="flex items-center gap-1.5">
                     {navLinks.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
-                        className="px-4 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-full transition-all"
+                        className="rounded-full px-4 py-1.5 text-[11px] font-semibold text-muted-foreground/90 transition-all hover:bg-slate-900/4 hover:text-foreground dark:hover:bg-slate-800/60"
                       >
                         {link.label}
                       </Link>
                     ))}
                   </nav>
                 </div>
-                <div className="flex items-center gap-2 pl-6">
+                <div className="flex items-center gap-2 pl-4">
                   <ModeToggle />
-                  <Button size="sm" className="rounded-full h-9 px-5 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20">
-                    <Lock className="w-3 h-3 mr-2" />
-                    Book
-                  </Button>
+                  <Link href="#services">
+                    <Button className="h-9 rounded-full bg-blue-600 px-5 text-[11px] font-semibold text-white shadow-[0_10px_35px_rgba(37,99,235,0.6)] hover:bg-blue-700">
+                      <Lock className="mr-2 h-3 w-3" />
+                      Book Slot
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </motion.header>
@@ -132,65 +144,101 @@ export function Navbar() {
         </AnimatePresence>
       </div>
 
-      {/* MOBILE NAV (Fixed Header + Right Sidebar) */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-background/60 backdrop-blur-lg">
-        <div className="flex h-16 items-center justify-between px-4">
-          <BrandLogo />
-          
-          <div className="flex items-center gap-2">
+      {/* Mobile nav */}
+      <div className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-background/80 backdrop-blur-xl md:hidden">
+        <div className="flex h-14 items-center justify-between px-4">
+          <BrandMark condensed />
+          <div className="flex items-center gap-1.5">
             <ModeToggle />
             <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-full border border-white/10 bg-white/5 backdrop-blur"
+                >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent 
-                side="right" 
-                className="w-[300px] sm:w-[350px] border-l border-primary/20 bg-background/90 backdrop-blur-2xl"
+              <SheetContent
+                side="right"
+                className="flex w-[290px] flex-col border-l border-white/10 bg-background/95 px-0 py-0 backdrop-blur-2xl sm:w-[320px]"
               >
-                <SheetHeader className="mb-8 text-left">
-                  <SheetTitle className="flex items-center gap-2">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white shadow-glow">
-                      <Sparkles className="w-4 h-4 fill-white" />
+                <SheetHeader className="border-b border-white/10 px-4 pb-3 pt-3 text-left">
+                  <SheetTitle className="flex items-center gap-3">
+                    <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl">
+                      <Image
+                        src="/assets/logo/ilnsm2418.png"
+                        alt="pfmarket logo"
+                        width={40}
+                        height={40}
+                        className="h-10 w-10 object-contain"
+                      />
                     </div>
-                    <div className="flex flex-col">
-                        <span className="font-bold text-lg leading-none">pfmarket</span>
-                        <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">Menu</span>
+                    <div className="flex flex-col leading-tight">
+                      <span className="text-xs font-semibold text-foreground">
+                        pfmarket
+                      </span>
+                      <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                        Navigation
+                      </span>
                     </div>
                   </SheetTitle>
                 </SheetHeader>
-                
-                <div className="flex flex-col h-full pb-6">
-                    {/* Menu Links */}
-                    <div className="flex flex-col gap-1">
-                        {navLinks.map((link, idx) => (
-                            <Link
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => setIsMobileOpen(false)}
-                            className="group flex items-center justify-between py-4 px-2 text-lg font-medium border-b border-border/40 hover:bg-secondary/30 hover:pl-4 transition-all duration-300"
-                            >
-                                <span className="group-hover:text-primary transition-colors">{link.label}</span>
-                                <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-primary" />
-                            </Link>
-                        ))}
-                    </div>
 
-                    {/* Footer Actions */}
-                    <div className="mt-auto flex flex-col gap-4">
-                        <div className="rounded-xl bg-gradient-to-br from-blue-600/10 to-sky-500/10 p-4 border border-blue-500/20">
-                            <h4 className="font-semibold text-sm mb-1 text-primary">Need the App?</h4>
-                            <p className="text-xs text-muted-foreground mb-3">Install for instant access and offline viewing.</p>
-                            <Button variant="outline" size="sm" className="w-full gap-2 border-primary/30 hover:bg-primary/10">
-                                <Download className="w-3 h-3" /> Install App
-                            </Button>
-                        </div>
-                        
-                        <Button className="w-full bg-blue-600 h-12 text-base font-bold shadow-lg shadow-blue-600/20" onClick={() => setIsMobileOpen(false)}>
-                            Book Priority Slot
+                <div className="flex h-full flex-col px-4 pb-5 pt-3">
+                  <nav className="mb-4 flex flex-col gap-1.5">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsMobileOpen(false)}
+                        className="group flex items-center justify-between rounded-xl px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+                      >
+                        <span>{link.label}</span>
+                        <ArrowRight className="h-4 w-4 -translate-x-1 opacity-0 text-primary transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                      </Link>
+                    ))}
+                  </nav>
+
+                  <div className="my-2 h-px bg-gradient-to-r from-transparent via-border/70 to-transparent" />
+
+                  <div className="mt-auto flex flex-col gap-3 pt-3">
+                    {/* <div className="rounded-2xl border border-primary/20 bg-primary/5 p-3"> */}
+                      {/* <div className="mb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                        Install app
+                      </div>
+                      <p className="mb-2 text-[11px] text-muted-foreground">
+                        Keep your decks and timelines pinned to your home screen
+                        with offline-friendly access.
+                      </p> */}
+                      {/* <div className="flex gap-2"> */}
+                        {/* Mobile install button uses same logic */}
+                        {/* <InstallPrompt size="sm" className="flex-1" />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 gap-2 border-primary/40 text-[11px]"
+                          asChild
+                        >
+                          <span className="flex items-center justify-center gap-2">
+                            <Download className="h-3 w-3" />
+                            Install pfmarket
+                          </span>
                         </Button>
-                    </div>
+                      </div> */}
+                    {/* </div> */}
+
+                    <Link
+                      href="#services"
+                      onClick={() => setIsMobileOpen(false)}
+                    >
+                      <Button className="h-11 w-full rounded-2xl bg-blue-600 text-sm font-semibold text-white shadow-[0_14px_40px_rgba(37,99,235,0.6)] hover:bg-blue-700">
+                        <Lock className="mr-2 h-4 w-4" />
+                        Book Slot
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -198,5 +246,5 @@ export function Navbar() {
         </div>
       </div>
     </>
-  )
+  );
 }

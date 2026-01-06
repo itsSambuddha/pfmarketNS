@@ -1,56 +1,71 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Download } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export function InstallPrompt() {
-  const [isIOS, setIsIOS] = React.useState(false)
-  const [isStandalone, setIsStandalone] = React.useState(false)
-  const [deferredPrompt, setDeferredPrompt] = React.useState<any>(null)
+export function InstallPrompt({
+  className = "",
+  size = "sm"
+}: {
+  className?: string;
+  size?: "sm" | "default" | "icon";
+}) {
+  const [isIOS, setIsIOS] = React.useState(false);
+  const [isStandalone, setIsStandalone] = React.useState(false);
+  const [deferredPrompt, setDeferredPrompt] = React.useState<any>(null);
 
   React.useEffect(() => {
-    setIsIOS(
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-    )
+    if (typeof window === "undefined") return;
 
-    setIsStandalone(window.matchMedia("(display-mode: standalone)").matches)
+    setIsIOS(
+      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+        !(window as any).MSStream
+    );
+
+    setIsStandalone(
+      window.matchMedia("(display-mode: standalone)").matches ||
+        (window.navigator as any).standalone === true
+    );
 
     const handleBeforeInstallPrompt = (e: any) => {
-      e.preventDefault()
-      setDeferredPrompt(e)
-    }
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
-    }
-  }, [])
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return
-    deferredPrompt.prompt()
-    const { outcome } = await deferredPrompt.userChoice
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
-      setDeferredPrompt(null)
+      setDeferredPrompt(null);
     }
-  }
+  };
 
-  // If already installed or on iOS (where we can't force a prompt easily), hide button
+  // Hide when not installable or already installed or on iOS (no prompt API)
   if (isStandalone || isIOS || !deferredPrompt) {
-    return null
+    return null;
   }
 
   return (
-    <Button 
-      variant="outline" 
-      size="sm" 
+    <Button
+      variant="outline"
+      size={size}
       onClick={handleInstallClick}
-      className="hidden md:flex gap-2 border-primary/20 hover:bg-primary/10"
+      className={`gap-2 border-primary/20 hover:bg-primary/10 ${className}`}
     >
       <Download className="h-4 w-4" />
       <span className="text-xs font-medium">Install App</span>
     </Button>
-  )
+  );
 }

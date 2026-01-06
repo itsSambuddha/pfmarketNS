@@ -22,6 +22,20 @@
   --color-brand-royal: #2563eb;
   --color-brand-sky: #0ea5e9;
   --color-brand-neon: #38bdf8;
+
+  /* 👇 Tell Tailwind v4 to generate `animate-scroll` utility */
+  --animate-scroll: scroll var(--animation-duration, 40s)
+    linear infinite var(--animation-direction, forwards);
+
+  /* Keyframes used by the animation */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 :root {
