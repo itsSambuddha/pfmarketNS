@@ -1,9 +1,9 @@
 // components/hero-section.tsx
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useState } from "react"
-import { motion } from "framer-motion"
+import Link from "next/link";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   ChevronRight,
@@ -11,13 +11,35 @@ import {
   Clock,
   ShieldCheck,
   LineChart,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
-import { WorkflowDiagram } from "@/components/workflow-diagram"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { WorkflowDiagram } from "@/components/workflow-diagram";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
+
+const students = [
+  {
+    id: 1,
+    name: "Aditya · IIM deck",
+    designation: "Turnaround in 6 days",
+    image: "/gallery/reviewers/aditya.jpg",
+  },
+  {
+    id: 2,
+    name: "Meera · Thesis kit",
+    designation: "70+ page visual thesis",
+    image: "/gallery/reviewers/meera.jpg",
+  },
+  {
+    id: 3,
+    name: "Karthik · MUN brief",
+    designation: "High‑stakes committee",
+    image: "/gallery/reviewers/karthik.jpg",
+  },
+];
 
 export function HeroSection() {
-  const [workflowOpen, setWorkflowOpen] = useState(false)
+  const [workflowOpen, setWorkflowOpen] = useState(false);
 
   return (
     <>
@@ -40,7 +62,7 @@ export function HeroSection() {
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-400/45 bg-white/80 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-700 shadow-[0_14px_45px_rgba(148,163,184,0.65)] backdrop-blur-xl dark:border-sky-400/45 dark:bg-slate-900/80 dark:text-sky-200">
               <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,0.35)]" />
-              Q1 Strategic Deck Slots Open
+              Strategic Deck Slots Open
               <span className="rounded-full bg-blue-600/5 px-2 py-0.5 text-[10px] font-medium text-blue-600 dark:text-sky-300">
                 Limited
               </span>
@@ -56,7 +78,7 @@ export function HeroSection() {
           >
             Strategic Visuals
             <br />
-            <span className="text-gradient-main">For the Elite.</span>
+            <span className="text-gradient-main">For the Elites</span>
           </motion.h1>
 
           {/* Subheading */}
@@ -67,7 +89,7 @@ export function HeroSection() {
             className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg"
           >
             <TextGenerateEffect
-              words="We engineer academic assets that don't just pass—they dominate. Cinematic decks. Architect‑grade reports. Precision‑timed delivery."
+              words="I engineer academic assets that don't just pass—they dominate. Cinematic decks. Architect‑grade reports. Precision‑timed delivery."
               className="font-medium text-muted-foreground"
             />
           </motion.div>
@@ -114,7 +136,7 @@ export function HeroSection() {
                 icon={<Clock className="h-4 w-4" />}
                 label="Delivery window"
                 value="10-14 days"
-                hint="Priority timeline on pfmarket decks."
+                hint="Priority timeline on CampusSlateNS decks."
               />
               <div className="hidden h-10 w-px bg-border/60 sm:block" />
               <StatItem
@@ -156,7 +178,7 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Social proof (unchanged) */}
+          {/* Social proof with animated tooltip + gradient stars */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -164,21 +186,31 @@ export function HeroSection() {
             className="mt-8 flex flex-col items-center gap-3 text-xs text-muted-foreground"
           >
             <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {[1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    whileHover={{ y: -2 }}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-background/80 bg-gradient-to-br from-slate-100 to-slate-300 text-[10px] font-semibold text-slate-700 dark:border-slate-900 dark:from-slate-700 dark:to-slate-900 dark:text-slate-50"
-                  >
-                    U{i}
-                  </motion.div>
-                ))}
+              <div className="flex items-center">
+                {/* Small avatar cluster */}
+                <div className="flex items-center gap-1">
+                  <AnimatedTooltip items={students} />
+                </div>
               </div>
               <div>
-                <div className="mb-0.5 flex text-amber-400">
+                <div className="mb-0.5 flex bg-gradient-to-r from-amber-300 via-yellow-400 to-orange-400 bg-clip-text text-amber-400">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="h-3 w-3 fill-current" />
+                    <motion.span
+                      key={i}
+                      className="inline-flex text-amber-400"
+                      initial={{ scale: 0.9, opacity: 0.85 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{
+                        delay: 0.15 + i * 0.04,
+                        duration: 0.3,
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 18,
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <Star className="h-3 w-3 fill-current" />
+                    </motion.span>
                   ))}
                 </div>
                 <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
@@ -186,8 +218,9 @@ export function HeroSection() {
                 </p>
               </div>
             </div>
+            <br/>
             <p className="text-[11px] font-medium uppercase tracking-[0.18em]">
-              Zero‑plagiarism //
+              Zero‑plagiarism ||
               <span className="ml-1 text-blue-600 dark:text-sky-400">
                 Detector‑safe narrative
               </span>
@@ -200,10 +233,9 @@ export function HeroSection() {
       <WorkflowDiagram
         open={workflowOpen}
         onClose={() => setWorkflowOpen(false)}
-        // mode="deck"
       />
     </>
-  )
+  );
 }
 
 function StatItem({
@@ -212,10 +244,10 @@ function StatItem({
   value,
   hint,
 }: {
-  icon: React.ReactNode
-  label: string
-  value: string
-  hint: string
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  hint: string;
 }) {
   return (
     <motion.div
@@ -231,5 +263,5 @@ function StatItem({
       </div>
       <p className="text-[11px] text-muted-foreground">{hint}</p>
     </motion.div>
-  )
+  );
 }

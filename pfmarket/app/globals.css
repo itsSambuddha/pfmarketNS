@@ -111,3 +111,12 @@
     @apply bg-clip-text text-transparent bg-gradient-to-br from-blue-700 via-blue-600 to-sky-400 dark:from-white dark:via-sky-200 dark:to-blue-500;
   }
 }
+@keyframes flowAnimation {
+  to {
+    stroke-dashoffset: -30;
+  }
+}
+
+.flow-dash {
+  animation: flowAnimation 1s linear infinite;
+}

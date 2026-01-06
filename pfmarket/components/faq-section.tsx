@@ -44,14 +44,14 @@ const FAQ_ITEMS: FaqItem[] = [
     id: "turnaround",
     question: "What is the usual turnaround time?",
     answer:
-      "For the Cinematic Deck, standard delivery is about 48 hours once the brief is locked. Priority slots, confirmed over WhatsApp, can compress this to roughly 12–24 hours depending on complexity and the current queue.",
+      "The standard delivery is about 10-14 once the brief is locked. Complexity, Content and Length increases this to roughly 2x the no.of days.",
     icon: Zap,
   },
   {
     id: "brief",
     question: "What do you need from me to get started?",
     answer:
-      "A short brief with your topic, context, target audience, and any college or committee guidelines is enough to begin. If you have sample decks, grading rubrics, or past submissions, those can be attached as reference—not as templates to copy.",
+      "A short brief (over WhatsApp once payment is confirmed) with your topic, context, target audience, and any college or committee guidelines is enough to begin. If you have sample decks, grading rubrics, or past submissions, those can be attached as reference—not as templates to copy.",
     icon: FileText,
   },
   {

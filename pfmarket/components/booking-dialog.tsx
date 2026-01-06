@@ -1,3 +1,4 @@
+//pfmarket/components/booking-dialog.tsx
 "use client"
 
 import * as React from "react"
@@ -98,14 +99,67 @@ export function BookingDialog({
   }
 
   // QR selection: 1000 = report, 250 = deck, discounted → generic QR
-  let qrImageSrc = "/assets/qr_any.png"
+    // QR selection:
+  // - Non-discounted exact matches get dedicated QR images
+  // - Discounted or arbitrary amounts fall back to generic QR
+  let qrImageSrc = "/assets/qr_any.png";
+
   if (!isDiscounted) {
-    if (finalPrice === 250) {
-      qrImageSrc = "/assets/qr_250.png"
-    } else if (finalPrice === 1000) {
-      qrImageSrc = "/assets/qr_1000.png"
+    switch (finalPrice) {
+      // Legacy amounts
+      case 250:
+        qrImageSrc = "/assets/qr_250.png";
+        break;
+      case 1000:
+        qrImageSrc = "/assets/qr_1000.png";
+        break;
+
+      // Deck tiers
+      case 120:
+        qrImageSrc = "/assets/qr_120.png";
+        break;
+      case 220:
+        qrImageSrc = "/assets/qr_220.png";
+        break;
+      case 310:
+        qrImageSrc = "/assets/qr_310.png";
+        break;
+      case 390:
+        qrImageSrc = "/assets/qr_390.png";
+        break;
+      case 460:
+        qrImageSrc = "/assets/qr_460.png";
+        break;
+      case 520:
+        qrImageSrc = "/assets/qr_520.png";
+        break;
+
+      // Report tiers
+      case 900:
+        qrImageSrc = "/assets/qr_900.png";
+        break;
+      case 1750:
+        qrImageSrc = "/assets/qr_1750.png";
+        break;
+      case 2550:
+        qrImageSrc = "/assets/qr_2550.png";
+        break;
+      case 3300:
+        qrImageSrc = "/assets/qr_3300.png";
+        break;
+      case 3950:
+        qrImageSrc = "/assets/qr_3950.png";
+        break;
+      case 4500:
+        qrImageSrc = "/assets/qr_4500.png";
+        break;
+
+      default:
+        qrImageSrc = "/assets/qr_any.png";
+        break;
     }
   }
+
 
   const upiLink = `upi://pay?pa=${encodeURIComponent(
     UPI_VPA,

@@ -16,7 +16,7 @@ const REASONS = [
   {
     id: "marks",
     label: "Marks you can defend",
-    body: "Decks and reports built around your outline and rubric so you can walk through every slide without fearing “AI did this” comments.",
+    body: "Decks and reports built around your outline and rubric so you can walk through every slide confidently without fearing “AI did this” comments.",
     tag: "Exam & viva safe",
   },
   {
@@ -28,7 +28,7 @@ const REASONS = [
   {
     id: "pricing",
     label: "Affordable & negotiable",
-    body: "Decks from ₹250 / 10 slides, reports from ₹1,000 / project. Tight ceiling? Scope and polish adjust instead of the door closing.",
+    body: "Decks from ₹250 / 10 slides, reports from ₹1,000 / project only. Tight ceiling? Scope and polish adjust instead of the door closing.",
     tag: "Student‑first pricing",
     icon: HandCoins,
   },
@@ -51,13 +51,13 @@ export function WhyUsRibbon() {
             <Sparkles className="h-3 w-3 text-amber-400" />
             Why pay for this in an AI world
           </div>
-          <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+          <h2 className="mt-4 text-2xl font-semibold  md:text-3xl">
             Real work,{" "}
-            <span className="text-gradient-main">not auto‑generated output</span>
+            <span className="text-gradient-main">not auto (AI) generated output</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-[15px]">
-            AI tools can spit out decks and reports. This studio makes sure your
-            teacher or hiring manager sees **your** effort, not just a bot’s style.
+            AI tools can spit out PPTs and reports. In this studio I make sure your
+            teacher or hiring manager sees <span className="italic">your</span> effort, not just a bot’s style.
           </p>
         </div>
 
@@ -85,7 +85,7 @@ export function WhyUsRibbon() {
                         AI platforms
                       </p>
                       <p className="text-[11px] text-slate-500">
-                        Presentation.ai, generic writers
+                        Presentation.ai, generic writers, etc
                       </p>
                     </div>
                   </div>
@@ -143,7 +143,7 @@ export function WhyUsRibbon() {
               <div className="flex items-start gap-2">
                 <Pointer className="mt-0.5 h-4 w-4 text-sky-400" />
                 <p className="text-[11px] leading-snug text-slate-300">
-                  You bring the work. The studio turns it into decks and reports you
+                  You bring the work. I turn it into decks and reports you
                   can defend slide‑by‑slide, not downloads you hope don’t get flagged.
                 </p>
               </div>

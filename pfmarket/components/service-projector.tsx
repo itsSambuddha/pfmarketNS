@@ -1,46 +1,51 @@
-"use client"
+// components/service-projector.tsx
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
-import { CheckCircle2, Lock, ArrowRight, ShieldCheck } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { SERVICE_TIERS, type ServiceTier } from "@/lib/constants"
-import { BookingDialog } from "@/components/booking-dialog"
-import { ReferralCalculator } from "@/components/referral-calculator"
+import * as React from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  CheckCircle2,
+  Lock,
+  ArrowRight,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { SERVICE_TIERS, type ServiceTier } from "@/lib/constants";
+import { BookingDialog } from "@/components/booking-dialog";
+import { ReferralCalculator } from "@/components/referral-calculator";
 
 export function ServiceProjector() {
   const [selectedId, setSelectedId] = React.useState<string>(
-    SERVICE_TIERS[0]?.id,
-  )
-  const [isBookingOpen, setIsBookingOpen] = React.useState(false)
+    SERVICE_TIERS[0]?.id
+  );
+  const [isBookingOpen, setIsBookingOpen] = React.useState(false);
 
-  const [finalPrice, setFinalPrice] = React.useState(250)
-  const [isDiscounted, setIsDiscounted] = React.useState(false)
-  const [discountPercent, setDiscountPercent] = React.useState(0)
+  const [finalPrice, setFinalPrice] = React.useState(250);
+  const [isDiscounted, setIsDiscounted] = React.useState(false);
 
   const activeService: ServiceTier | undefined = React.useMemo(
     () => SERVICE_TIERS.find((s) => s.id === selectedId) ?? SERVICE_TIERS[0],
-    [selectedId],
-  )
+    [selectedId]
+  );
 
-  const basePrice = 250
+  const basePrice = 250;
 
   const isFree = React.useMemo(
     () => activeService?.price?.toLowerCase().includes("free") ?? false,
-    [activeService],
-  )
+    [activeService]
+  );
 
-  const isShield = activeService?.id === "shield"
+  const isShield = activeService?.id === "shield";
 
   React.useEffect(() => {
-    setFinalPrice(basePrice)
-    setIsDiscounted(false)
-    setDiscountPercent(0)
-  }, [basePrice, selectedId])
+    setFinalPrice(basePrice);
+    setIsDiscounted(false);
+  }, [basePrice, selectedId]);
 
-  if (!activeService) return null
+  if (!activeService) return null;
 
   return (
     <section
@@ -57,7 +62,7 @@ export function ServiceProjector() {
 
       <div className="relative z-10 container px-4 md:px-6">
         {/* Section header */}
-        <div className="mb-12 flex flex-col items-center text-center">
+        <div className="mb-12 flex flex-col items-center text中心 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-white/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm backdrop-blur-xl dark:border-sky-400/40 dark:bg-slate-900/70 dark:text-sky-200">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,0.4)]" />
             Service Protocols
@@ -69,9 +74,8 @@ export function ServiceProjector() {
             Architecture as a <span className="text-gradient-main">service</span>
           </h2>
           <p className="mt-3 max-w-[640px] text-sm text-muted-foreground md:text-base">
-            Slide decks, reports, and protection flows as discrete modules. Pick a
-            protocol and the screen adapts inclusions and live pricing along your
-            referral curve.
+            Slide decks, reports, and protection flows as discrete modules. Pick
+            a protocol and the screen adapts inclusions and scope‑based pricing.
           </p>
         </div>
 
@@ -88,7 +92,7 @@ export function ServiceProjector() {
               <div className="relative rounded-full bg-white/40 p-1 backdrop-blur dark:bg-slate-900/60">
                 <div className="flex flex-wrap gap-1">
                   {SERVICE_TIERS.map((tier) => {
-                    const active = tier.id === activeService.id
+                    const active = tier.id === activeService.id;
                     return (
                       <button
                         key={tier.id}
@@ -104,7 +108,7 @@ export function ServiceProjector() {
                           "focus-visible:ring-2 focus-visible:ring-blue-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
                           active
                             ? "text-blue-700 dark:text-sky-200"
-                            : "text-muted-foreground hover:text-foreground",
+                            : "text-muted-foreground hover:text-foreground"
                         )}
                       >
                         {active && (
@@ -125,7 +129,7 @@ export function ServiceProjector() {
                           {tier.title}
                         </span>
                       </button>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -153,7 +157,7 @@ export function ServiceProjector() {
                   "mt-5 grid gap-6",
                   isShield
                     ? "md:grid-cols-1"
-                    : "md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]",
+                    : "md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]"
                 )}
               >
                 {/* Left: narrative & features */}
@@ -189,24 +193,46 @@ export function ServiceProjector() {
                   </div>
 
                   {!isShield && (
-                    <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                      Designed to survive{" "}
-                      <span className="text-blue-600 dark:text-sky-400">
-                        viva + detector + peer review
-                      </span>
-                    </p>
+                    <>
+                      <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                        Designed to survive{" "}
+                        <span className="text-blue-600 dark:text-sky-400">
+                          viva + detector + peer review
+                        </span>
+                      </p>
+
+                      {/* Referrals coming soon tile */}
+                      <div className="mt-3 flex items-center gap-3 rounded-2xl border border-dashed border-white/30 bg-white/40 px-3.5 py-2.5 text-[11px] shadow-sm backdrop-blur dark:border-white/15 dark:bg-slate-950/50">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10 text-blue-600 dark:bg-sky-600/10 dark:text-sky-300">
+                          <Users className="h-4 w-4" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                            Referral perks
+                          </span>
+                          <span className="text-[11px] text-muted-foreground">
+                            Credits + extras for sending serious cohorts. Feature
+                            is{" "}
+                            <span className="font-semibold text-blue-600 dark:text-sky-400">
+                              coming soon
+                            </span>
+                            .
+                          </span>
+                        </div>
+                      </div>
+                    </>
                   )}
 
                   {isShield && (
                     <p className="mt-3 text-xs text-muted-foreground md:text-sm">
                       Refund Shield wraps every paid protocol in a clear,
-                      documented acceptance criteria. If the work misses that bar,
-                      you get a full refund. No negotiation, no drama.
+                      documented acceptance criteria. If the work misses that
+                      deadline, you get a full refund. No negotiation, no drama.
                     </p>
                   )}
                 </div>
 
-                {/* Right: pricing / referral / CTA — hidden for Refund Shield */}
+                {/* Right: pricing / scope slider / CTA — hidden for Refund Shield */}
                 {!isShield && (
                   <div className="flex flex-col gap-4 rounded-2xl border border-white/30 bg-white/60 p-4 shadow-[0_10px_40px_rgba(15,23,42,0.55)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/60 md:p-5">
                     {/* Price block */}
@@ -234,15 +260,15 @@ export function ServiceProjector() {
                             <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
                               {activeService.unit}
                             </span>
-                            {isDiscounted && (
-                              <span className="text-[11px] text-emerald-500">
-                                You save {discountPercent}% (₹{basePrice - finalPrice})
-                              </span>
-                            )}
                             {!isDiscounted && (
                               <span className="text-[11px] text-muted-foreground">
-                                0–5 referrals map to fixed price points from ₹250
-                                down to ₹90.
+                                Slider shows how scope affects price & delivery
+                                window.
+                              </span>
+                            )}
+                            {isDiscounted && (
+                              <span className="text-[11px] text-emerald-500">
+                                Scope tier adjusted; rate improves vs base.
                               </span>
                             )}
                           </>
@@ -250,14 +276,14 @@ export function ServiceProjector() {
                       </div>
                     </div>
 
-                    {/* Referral calculator for paid tiers */}
+                    {/* Scope / pricing preview */}
                     {!isFree && (
                       <ReferralCalculator
                         basePrice={basePrice}
                         serviceId={activeService.id}
-                        onPriceUpdate={(newPrice, isDiscounted) => {
-                          setFinalPrice(newPrice)
-                          setIsDiscounted(isDiscounted)
+                        onPriceUpdate={(newPrice, discounted) => {
+                          setFinalPrice(newPrice);
+                          setIsDiscounted(discounted);
                         }}
                       />
                     )}
@@ -276,7 +302,6 @@ export function ServiceProjector() {
                           : `Lock in at ₹${finalPrice}`}
                       </Button>
 
-                      {/* Only for non-shield tiers */}
                       <Button
                         size="lg"
                         type="button"
@@ -306,5 +331,5 @@ export function ServiceProjector() {
         isDiscounted={isDiscounted}
       />
     </section>
-  )
+  );
 }
