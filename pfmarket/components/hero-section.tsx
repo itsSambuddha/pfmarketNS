@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { WorkflowDiagram } from "@/components/workflow-diagram";
+import { WorkflowDiagram } from "@/components/workflow-diagram-modal";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 
 const students = [
