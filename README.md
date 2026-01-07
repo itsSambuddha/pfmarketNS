@@ -9,7 +9,7 @@
 
 A single-page consulting platform for cinematic academic decks and architected reports, designed with the polish of a Series-A SaaS landing page.
 
-![pfmarket Banner](https://socialify.git.ci/itsSambuddha/pfmarketNS/image?custom_language=Next.js\&font=Jost\&language=1\&name=1\&owner=1\&pattern=Formal+Invitation\&stargazers=1\&theme=Autok)
+![pfmarket Banner](https://socialify.git.ci/itsSambuddha/pfmarketNS/image?custom_language=Next.js&font=Jost&language=1&name=1&owner=1&pattern=Formal+Invitation&stargazers=1&theme=Dark)
 
 ---
 
